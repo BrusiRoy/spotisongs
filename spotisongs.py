@@ -6,6 +6,7 @@ import spotipy.util as util
 scope = 'user-library-read playlist-modify-public'
 READ_LIMIT = 50
 
+
 def create_playlist():
     # Creating the new playlist (delete the old one if present)
     playlists = sp.user_playlists(username)
@@ -40,3 +41,4 @@ if token:
         results = sp.current_user_saved_tracks(READ_LIMIT, offset)
 else:
     print "Can't get token for", username
+
