@@ -29,6 +29,7 @@ token = util.prompt_for_user_token(username, scope)
 if token:
     sp = spotipy.Spotify(auth=token)
     playlist_id = create_playlist()
+    print 'Playlist created'
 
     offset = 0
     results = sp.current_user_saved_tracks(READ_LIMIT, offset)
@@ -37,8 +38,10 @@ if token:
         for item in results['items']:
             tracks.append(item['track']['uri'])
         sp.user_playlist_add_tracks(username, playlist_id, tracks)
-        offset += READ_LIMIT
+        offset += len(results['items'])
         results = sp.current_user_saved_tracks(READ_LIMIT, offset)
+
+    print 'Done! ' + str(sp.user_playlist(username, playlist_id)['tracks']['total']) + ' songs were copied'
 else:
     print "Can't get token for", username
 
